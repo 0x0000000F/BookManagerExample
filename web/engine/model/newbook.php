@@ -2,15 +2,15 @@
 if(!defined("IN_RULE")) die ("Oops");
 
 $title = 'Newbook';
-$authors = getAuthorList($pdo);
+$authors = getAuthorList($pdo);  
 
-if (isset ($_POST['newbook']) ) 			{$message = newbook($pdo); }
+if (isset ($_POST['newbook']) ) 			{$message = newbook($OkDomains, $pdo); }
 
-function newbook($dblink) {
+function newbook($okdomains, $dblink) {
 	$authorid 		= filter_input(INPUT_POST, 'authorid', FILTER_SANITIZE_NUMBER_INT);
 	$name 			= filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 	$dateto 		= filter::date($_POST['dateto']);
-	$preview 		= filter::allowedURL($_POST['preview'], array('www.litmir.co','litmir.co'));	
+	$preview 		= filter::allowedURL($_POST['preview'], $okdomains);	
 
 	if ($authorid == FALSE) 	{$message =  "Не выбран автор.";}
 	if ($name == FALSE) 		{$message =  "Не указано название книги.";}

@@ -5,13 +5,13 @@ $title = 'EditBook';
 getBook($pdo); 
 $authors = getAuthorList($author_id, $pdo);
 
-if (isset ($_POST['editbook']) ) 			{$message = editbook($bid, $pdo); }
+if (isset ($_POST['editbook']) ) 			{$message = editbook($bid, $OkDomains, $pdo); }
 
-function editbook($bid, $dblink) {
+function editbook($bid, $okdomains, $dblink) {
 	$authorid 		= filter_input(INPUT_POST, 'authorid', FILTER_SANITIZE_NUMBER_INT);
 	$name 			= filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 	$dateto 		= filter::date($_POST['dateto']);
-	$preview 		= filter::allowedURL($_POST['preview'], array('www.litmir.co','litmir.co'));	
+	$preview 		= filter::allowedURL($_POST['preview'], $okdomains);	
 
 	if ($authorid == FALSE) 	{$message =  "Не выбран автор.";}
 	if ($name == FALSE) 		{$message =  "Не указано название книги.";}
